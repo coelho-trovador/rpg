@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fichas de Personagens – Frieren | Coelho Trovador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment:    #f0e8d0;
+      --parchment-dk: #d9c89a;
+      --ink:          #1e1209;
+      --purple:       #6b2fa0;
+      --purple-light: #9b5fc0;
+      --purple-dark:  #3d1560;
+      --gold:         #b8860b;
+      --gold-light:   #d4a017;
+      --red:          #8b1a1a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #1a0d2e;
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .4;
+    }
+
+    .stars {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(107,47,160,.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(26,13,46,.6) 0%, transparent 50%),
+        #0e0720;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: 'Cinzel', serif;
+      font-size: .75rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--parchment-dk);
+      text-decoration: none;
+      opacity: .7;
+      transition: opacity .2s;
+      margin-bottom: 2rem;
+      animation: fadeDown .6s ease both;
+    }
+    .back-link:hover { opacity: 1; }
+    .back-link svg { width: 14px; height: 14px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--purple-dark) 0%, #0e0720 60%, #1a0838 100%);
+      border-radius: 4px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(155,95,192,.3), 0 20px 60px rgba(0,0,0,.6);
+      margin-bottom: 3rem;
+      animation: fadeDown .8s ease both .1s;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(155,95,192,0.06)' stroke-width='1'%3E%3Cpath d='M40 5 L75 25 L75 55 L40 75 L5 55 L5 25 Z'/%3E%3Ccircle cx='40' cy='40' r='20'/%3E%3C/g%3E%3C/svg%3E") center/80px repeat;
+    }
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: .7rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: .8rem;
+      position: relative;
+    }
+    .hero-title {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      color: var(--parchment);
+      text-shadow: 0 0 30px rgba(155,95,192,.8), 0 2px 4px rgba(0,0,0,.8);
+      line-height: 1.2;
+      position: relative;
+      margin-bottom: .8rem;
+    }
+    .hero-sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--parchment-dk);
+      font-size: 1rem;
+      opacity: .8;
+      position: relative;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem auto;
+      max-width: 400px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    /* ── NAV TABS ── */
+    .char-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .7s ease both .2s;
+    }
+    .char-tab {
+      font-family: 'Cinzel', serif;
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .5rem 1.2rem;
+      border-radius: 2px;
+      border: 1px solid rgba(155,95,192,.3);
+      background: rgba(107,47,160,.08);
+      color: var(--parchment-dk);
+      cursor: pointer;
+      transition: all .2s;
+      text-decoration: none;
+    }
+    .char-tab:hover, .char-tab.active {
+      background: rgba(107,47,160,.35);
+      border-color: var(--purple-light);
+      color: var(--parchment);
+    }
+    .char-tab.soon {
+      opacity: .4;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* ── CHARACTER SECTION ── */
+    .char-section {
+      margin-bottom: 3.5rem;
+      animation: fadeUp .7s ease both .3s;
+    }
+
+    .char-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .char-number {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2rem;
+      color: var(--purple-light);
+      opacity: .35;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .char-info {}
+    .char-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: var(--parchment);
+      text-shadow: 0 0 20px rgba(155,95,192,.4);
+    }
+    .char-class {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--parchment-dk);
+      font-size: .9rem;
+      opacity: .75;
+      margin-top: .2rem;
+    }
+    .char-badge {
+      margin-left: auto;
+      font-family: 'Cinzel', serif;
+      font-size: .6rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #1a6b1a;
+      background: rgba(26,107,26,.1);
+      border: 1px solid rgba(26,107,26,.3);
+      padding: .25rem .7rem;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── IFRAME WRAPPER ── */
+    .pdf-wrapper {
+      background: var(--parchment);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px var(--parchment-dk),
+        0 0 0 4px rgba(107,47,160,.2),
+        0 16px 50px rgba(0,0,0,.6);
+    }
+
+    .pdf-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .8rem 1.2rem;
+      background: linear-gradient(to right, var(--purple-dark), #1a0838);
+      border-bottom: 1px solid rgba(155,95,192,.3);
+    }
+    .pdf-toolbar-title {
+      font-family: 'Cinzel', serif;
+      font-size: .7rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--parchment-dk);
+      opacity: .8;
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: linear-gradient(135deg, var(--purple-dark), var(--purple));
+      color: var(--parchment);
+      font-family: 'Cinzel', serif;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: .4rem 1rem;
+      border-radius: 2px;
+      border: 1px solid rgba(155,95,192,.4);
+      transition: all .2s;
+    }
+    .btn-download:hover {
+      background: linear-gradient(135deg, var(--purple), var(--purple-light));
+    }
+    .btn-download svg { width: 14px; height: 14px; }
+
+    .pdf-frame {
+      width: 100%;
+      height: 850px;
+      border: none;
+      display: block;
+      background: #f5f0e8;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 3rem 1rem 1rem;
+    }
+    .footer-text {
+      font-family: 'Cinzel', serif;
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(240,232,208,.3);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 2rem 1.2rem; }
+      .pdf-frame { height: 600px; }
+      .char-header { flex-wrap: wrap; }
+      .char-badge { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<div class="page">
+
+  <a href="frieren.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Voltar à coleção
+  </a>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">✦ &nbsp; D&amp;D 2024 · Homebrew &nbsp; ✦</div>
+    <h1 class="hero-title">Frieren &amp; a Jornada<br>para o Além</h1>
+    <p class="hero-sub">Fichas completas de personagens para D&amp;D 2024</p>
+    <div class="divider"><span style="color:var(--gold-light)">✦</span></div>
+    <p style="font-family:'IM Fell English',serif; font-style:italic; color:var(--parchment-dk); font-size:.9rem; opacity:.7; position:relative;">
+      Selecione um personagem abaixo para visualizar ou baixar a ficha em PDF.
+    </p>
+  </div>
+
+  <!-- NAV TABS -->
+  <div class="char-nav">
+    <a href="#fern" class="char-tab active">01 · Fern</a>
+    <span class="char-tab soon">02 · Stark — em breve</span>
+    <span class="char-tab soon">03 · Frieren — em breve</span>
+    <!-- Para adicionar um novo personagem:
+         1. Copie a linha acima, remova a classe "soon" e troque para active
+         2. Adicione o href apontando para o id da seção, ex: href="#stark"
+    -->
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PERSONAGEM 01 — FERN
+       ══════════════════════════════════════ -->
+  <div class="char-section" id="fern">
+
+    <div class="char-header">
+      <div class="char-number">01</div>
+      <div class="char-info">
+        <div class="char-name">Fern</div>
+        <div class="char-class">Humana · Maga Nível Um · Escola de Evocação</div>
+      </div>
+      <span class="char-badge">Disponível</span>
+    </div>
+
+    <div class="pdf-wrapper">
+      <div class="pdf-toolbar">
+        <span class="pdf-toolbar-title">📄 &nbsp; Ficha completa — Fern</span>
+        <a href="pdfs/fern.pdf" download class="btn-download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a1 1 0 001 1h16a1 1 0 001-1v-3"/>
+          </svg>
+          Baixar PDF
+        </a>
+      </div>
+      <!-- ⬇️ SUBSTITUA o src pelo caminho do seu PDF, ex: src="pdfs/fern.pdf" -->
+      <iframe
+        class="pdf-frame"
+        src="pdfs/fern.pdf"
+        title="Ficha da Fern">
+        <p style="padding:2rem; font-family:serif; color:#444;">
+          Seu navegador não suporta visualização de PDF.
+          <a href="pdfs/fern.pdf">Clique aqui para baixar.</a>
+        </p>
+      </iframe>
+    </div>
+
+  </div>
+  <!-- FIM FERN -->
+
+
+  <!-- ══════════════════════════════════════
+       PERSONAGEM 02 — STARK (em breve)
+       Para ativar: remova os comentários,
+       coloque o PDF em pdfs/stark.pdf
+       e atualize a aba no char-nav acima.
+       ══════════════════════════════════════
+
+  <div class="char-section" id="stark">
+    <div class="char-header">
+      <div class="char-number">02</div>
+      <div class="char-info">
+        <div class="char-name">Stark</div>
+        <div class="char-class">Humano · Guerreiro · Campeão</div>
+      </div>
+      <span class="char-badge">Disponível</span>
+    </div>
+    <div class="pdf-wrapper">
+      <div class="pdf-toolbar">
+        <span class="pdf-toolbar-title">📄 &nbsp; Ficha completa — Stark</span>
+        <a href="pdfs/stark.pdf" download class="btn-download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a1 1 0 001 1h16a1 1 0 001-1v-3"/>
+          </svg>
+          Baixar PDF
+        </a>
+      </div>
+      <iframe class="pdf-frame" src="pdfs/stark.pdf" title="Ficha do Stark">
+        <p style="padding:2rem;">
+          <a href="pdfs/stark.pdf">Clique aqui para baixar.</a>
+        </p>
+      </iframe>
+    </div>
+  </div>
+
+  -->
+
+
+  <!-- ══════════════════════════════════════
+       PERSONAGEM 03 — FRIEREN (em breve)
+       Mesmo processo: descomente, adicione
+       pdfs/frieren.pdf e atualize a aba.
+       ══════════════════════════════════════
+
+  <div class="char-section" id="frieren">
+    <div class="char-header">
+      <div class="char-number">03</div>
+      <div class="char-info">
+        <div class="char-name">Frieren</div>
+        <div class="char-class">Elfa · Maga Anciana</div>
+      </div>
+      <span class="char-badge">Disponível</span>
+    </div>
+    <div class="pdf-wrapper">
+      <div class="pdf-toolbar">
+        <span class="pdf-toolbar-title">📄 &nbsp; Ficha completa — Frieren</span>
+        <a href="pdfs/frieren.pdf" download class="btn-download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a1 1 0 001 1h16a1 1 0 001-1v-3"/>
+          </svg>
+          Baixar PDF
+        </a>
+      </div>
+      <iframe class="pdf-frame" src="pdfs/frieren.pdf" title="Ficha da Frieren">
+        <p style="padding:2rem;">
+          <a href="pdfs/frieren.pdf">Clique aqui para baixar.</a>
+        </p>
+      </iframe>
+    </div>
+  </div>
+
+  -->
+
+
+  <footer>
+    <div class="divider" style="max-width:300px; margin: 0 auto 1.5rem;">
+      <span style="color:rgba(240,232,208,.3)">✦</span>
+    </div>
+    <p class="footer-text">Coelho Trovador &nbsp;·&nbsp; Toda sexta, novos personagens</p>
+  </footer>
+
+</div>
+</body>
+</html>
